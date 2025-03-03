@@ -39,15 +39,24 @@ BuildRequires:  pkgconfig(blueprint-compiler)
 BuildRequires:  pkgconfig(webkitgtk-6.0)
 BuildRequires:  pkgconfig(libadwaita-1)
 BuildArch:      noarch
-Requires:       typelib(WebKit) = 6.0
-Requires:       typelib(Adw) = 1
-Requires:       typelib(Gtk)
-Requires:       typelib(Soup)
-Requires:       typelib(Gst)
-Requires:       typelib(GLib)
-Requires:       typelib(Gio)
-Requires:       typelib(Gdk)
+
+%if 0%{?suse_version}
+%define typelib() typelib(%{1}) = %{2}
+%else
+%define typelib() %{_libdir}/girepository-1.0/%{1}-%{2}.typelib
+%endif
+
+Requires:       %{typelib WebKit 6.0}
+Requires:       %{typelib Adw 1}
+Requires:       %{typelib Gtk 4.0}
+Requires:       %{typelib Soup 3.0}
+Requires:       %{typelib Gst 1.0}
+Requires:       %{typelib GLib 2.0}
+Requires:       %{typelib Gio 2.0}
+Requires:       %{typelib Gdk 4.0}
+
 Provides:       tangram
+
 
 Requires(post):    %alternatives
 Requires(postun):  %alternatives
